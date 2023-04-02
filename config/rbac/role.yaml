@@ -6,9 +6,17 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
-  - alpha.kubiki
+  - ""
   resources:
-  - tests
+  - pods
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - tutorial.my.domain
+  resources:
+  - foos
   verbs:
   - create
   - delete
@@ -18,15 +26,15 @@ rules:
   - update
   - watch
 - apiGroups:
-  - alpha.kubiki
+  - tutorial.my.domain
   resources:
-  - tests/finalizers
+  - foos/finalizers
   verbs:
   - update
 - apiGroups:
-  - alpha.kubiki
+  - tutorial.my.domain
   resources:
-  - tests/status
+  - foos/status
   verbs:
   - get
   - patch

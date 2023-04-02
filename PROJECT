@@ -17,4 +17,13 @@ resources:
   kind: Test
   path: kubiki/alpha/api/v1
   version: v1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: kubiki
+  group: alpha
+  kind: Foo
+  path: kubiki/alpha/api/v1
+  version: v1
 version: "3"
