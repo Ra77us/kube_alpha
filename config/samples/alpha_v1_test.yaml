@@ -1,0 +1,12 @@
+apiVersion: alpha.kubiki/v1
+kind: Test
+metadata:
+  labels:
+    app.kubernetes.io/name: test
+    app.kubernetes.io/instance: test-sample
+    app.kubernetes.io/part-of: kube
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: kube
+  name: test-sample
+spec:
+  # TODO(user): Add fields here
