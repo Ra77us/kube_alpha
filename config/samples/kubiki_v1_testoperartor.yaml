@@ -9,4 +9,4 @@ metadata:
     app.kubernetes.io/created-by: kube2
   name: testoperartor-sample
 spec:
-  podImage: "hello-world:latest"
+  podImage: "hephaestusmetrics/gui:latest"

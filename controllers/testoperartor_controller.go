@@ -95,8 +95,68 @@ func (r *TestoperartorReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 						{
 							Name:  testOperator.Name,
 							Image: testOperator.Spec.PodImage,
+							Env: []corev1.EnvVar{
+								{
+									Name:  "prometheus.address",
+									Value: "prometheus.monitoring:9090",
+								},
+								{
+									Name:  "saved.path",
+									Value: "/../storage/metrics/savedMetrics/metrics.json",
+								},
+								{
+									Name:  "config.path",
+									Value: "/../storage/metrics/configMetrics/metrics.json",
+								},
+								{
+									Name:  "logs.path",
+									Value: "/../storage/logs",
+								},
+							},
+							ImagePullPolicy: corev1.PullPolicy("Always"),
+							Ports: []corev1.ContainerPort{
+								{
+									ContainerPort: 8080,
+								},
+							},
+							//VolumeMounts: []corev1.VolumeMount{
+							//	{
+							//		Name:      "storage",
+							//		MountPath: "storage",
+							//	},
+							//	{
+							//		Name:      "config-volume",
+							//		MountPath: "storage/metrics/configMetrics",
+							//	},
+							//},
 						},
 					},
+					//Volumes: []corev1.Volume{
+					//	{
+					//		Name: "storage",
+					//		VolumeSource: corev1.VolumeSource{
+					//			PersistentVolumeClaim: &corev1.PersistentVolumeClaimVolumeSource{
+					//				ClaimName: "hephaestus-gui-pvc",
+					//			},
+					//		},
+					//	},
+					//	{
+					//		Name: "config-map",
+					//		VolumeSource: corev1.VolumeSource{
+					//			ConfigMap: &corev1.ConfigMapVolumeSource{
+					//				LocalObjectReference: corev1.LocalObjectReference{
+					//					Name: "gui-configmap",
+					//				},
+					//				Items: []corev1.KeyToPath{
+					//					{
+					//						Key:  "metrics.json",
+					//						Path: "metrics.json",
+					//					},
+					//				},
+					//			},
+					//		},
+					//	},
+					//},
 				},
 			},
 		},
