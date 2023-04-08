@@ -3,22 +3,22 @@ package controllers
 import (
 	"context"
 
-	corev1 "k8s.io/api/core/v1"
+	"github.com/go-logr/logr"
+	kapps "k8s.io/api/apps/v1"
+	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/handler"
-	"sigs.k8s.io/controller-runtime/pkg/log"
-	"sigs.k8s.io/controller-runtime/pkg/reconcile"
-	"sigs.k8s.io/controller-runtime/pkg/source"
+	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
-	alphav1 "kubiki/alpha/api/v1"
+	appsv1 "tutorial.kubebuilder.io/project/api/v1"
 )
 
 // FooReconciler reconciles a Foo object
 type FooReconciler struct {
 	client.Client
+	Log logr.Logger
 	Scheme *runtime.Scheme
 }
 
@@ -33,72 +33,68 @@ type FooReconciler struct {
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
 func (r *FooReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	log := log.FromContext(ctx)
-	log.Info("reconciling foo custom resource")
+	/* */
+	log := r.Log.WithValues("simpleDeployment", req.NamespacedName)
 
-	// Get the Foo resource that triggered the reconciliation request
-	var foo alphav1.Foo
-	if err := r.Get(ctx, req.NamespacedName, &foo); err != nil {
-		log.Error(err, "unable to fetch Foo")
+	var simpleDeployment aplhav1.Foo
+	if err := r.Get(ctx, req.NamespacedName, &simpleDeployment); err != nil {
+		log.Error(err, "unable to fetch SimpleDeployment")
+		// we'll ignore not-found errors, since they can't be fixed by an immediate
+		// requeue (we'll need to wait for a new notification), and we can get them
+		// on deleted requests.
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
+	// +kubebuilder:docs-gen:collapse=Begin the Reconcile
 
-	// Get pods with the same name as Foo's friend
-	var podList corev1.PodList
-	var friendFound bool
-	if err := r.List(ctx, &podList); err != nil {
-		log.Error(err, "unable to list pods")
-	} else {
-		for _, item := range podList.Items {
-			if item.GetName() == foo.Spec.Name {
-				log.Info("pod linked to a foo custom resource found", "name", item.GetName())
-				friendFound = true
-			}
-		}
-	}
+	/*
+		Build the deployment that we want to see exist within the cluster
+	*/
 
-	// Update Foo' happy status
-	foo.Status.Happy = friendFound
-	if err := r.Status().Update(ctx, &foo); err != nil {
-		log.Error(err, "unable to update foo's happy status", "status", friendFound)
+	deployment := &kapps.Deployment{}
+
+	// Set the information you care about
+	deployment.Spec.Replicas = simpleDeployment.Spec.Replicas
+
+	/*
+		Set the controller reference, specifying that this `Deployment` is controlled by the `SimpleDeployment` being reconciled.
+		This will allow for the `SimpleDeployment` to be reconciled when changes to the `Deployment` are noticed.
+	*/
+	if err := controllerutil.SetControllerReference(simpleDeployment, deployment, r.scheme); err != nil {
 		return ctrl.Result{}, err
 	}
-	log.Info("foo's happy status updated", "status", friendFound)
 
-	log.Info("foo custom resource reconciled")
-	return ctrl.Result{}, nil
-}
-
-// SetupWithManager sets up the controller with the Manager.
-func (r *FooReconciler) SetupWithManager(mgr ctrl.Manager) error {
-	return ctrl.NewControllerManagedBy(mgr).
-		For(&alphav1.Foo{}).
-		Watches(
-			&source.Kind{Type: &corev1.Pod{}},
-			handler.EnqueueRequestsFromMapFunc(r.mapPodsReqToFooReq),
-		).
-		Complete(r)
-}
-
-func (r *FooReconciler) mapPodsReqToFooReq(obj client.Object) []reconcile.Request {
-	ctx := context.Background()
-	log := log.FromContext(ctx)
-
-	// List all the Foo custom resource
-	req := []reconcile.Request{}
-	var list alphav1.FooList
-	if err := r.Client.List(context.TODO(), &list); err != nil {
-		log.Error(err, "unable to list foo custom resources")
-	} else {
-		// Only keep Foo custom resources related to the Pod that triggered the reconciliation request
-		for _, item := range list.Items {
-			if item.Spec.Name == obj.GetName() {
-				req = append(req, reconcile.Request{
-					NamespacedName: types.NamespacedName{Name: item.Name, Namespace: item.Namespace},
-				})
-				log.Info("pod linked to a foo custom resource issued an event", "name", obj.GetName())
-			}
+	/*
+		Manage your `Deployment`.
+		- Create it if it doesn't exist.
+		- Update it if it is configured incorrectly.
+	*/
+	foundDeployment := &kapps.Deployment{}
+	err := r.Get(ctx, types.NamespacedName{Name: deployment.Name, Namespace: deployment.Namespace}, foundDeployment)
+	if err != nil && errors.IsNotFound(err) {
+		log.V(1).Info("Creating Deployment", "deployment", deployment.Name)
+		err = r.Create(ctx, deployment)
+	} else if err == nil {
+		if foundDeployment.Spec.Replicas != deployment.Spec.Replicas {
+			foundDeployment.Spec.Replicas = deployment.Spec.Replicas
+			log.V(1).Info("Updating Deployment", "deployment", deployment.Name)
+			err = r.Update(ctx, foundDeployment)
 		}
 	}
-	return req
+
+	return ctrl.Result{}, err
+}
+
+/*
+Finally, we add this reconciler to the manager, so that it gets started
+when the manager is started.
+Since we create dependency `Deployments` during the reconcile, we can specify that the controller `Owns` `Deployments`.
+This will tell the manager that if a `Deployment`, or its status, is updated, then the `SimpleDeployment` in its ownerRef field should be reconciled.
+*/
+
+// SetupWithManager sets up the controller with the Manager.
+func (r *SimpleDeploymentReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	return ctrl.NewControllerManagedBy(mgr).
+		For(&aplhav1.Foo{}).
+		Owns(&kapps.Deployment{}).
+		Complete(r)
 }

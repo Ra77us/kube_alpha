@@ -7,13 +7,11 @@ import (
 // FooSpec defines the desired state of Foo
 type FooSpec struct {
 	// Name of the friend Foo is looking for
-	Name string `json:"name"`
+	Replicas *int `json:"replicas,omitempty"`
 }
 
 // FooStatus defines the observed state of Foo
 type FooStatus struct {
-	// Happy will be set to true if Foo found a friend
-	Happy bool `json:"happy,omitempty"`
 }
 
 //+kubebuilder:object:root=true
