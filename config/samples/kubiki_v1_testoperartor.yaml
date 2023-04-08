@@ -1,12 +1,12 @@
 apiVersion: kubiki.kubiki.alpha/v1
-kind: Testoperartor
+kind: HephaestusDeployment
 metadata:
   labels:
-    app.kubernetes.io/name: testoperartor
-    app.kubernetes.io/instance: testoperartor-sample
+    app.kubernetes.io/name: hephaestusdeployment
+    app.kubernetes.io/instance: hephaestusdeployment-sample
     app.kubernetes.io/part-of: kube2
     app.kubernetes.io/managed-by: kustomize
     app.kubernetes.io/created-by: kube2
-  name: testoperartor-sample
+  name: hephaestusdeployment-sample
 spec:
-  podImage: "hello-world:latest"
+  podImage: "hephaestusmetrics/gui:latest"
