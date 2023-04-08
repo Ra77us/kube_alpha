@@ -22,43 +22,43 @@ type TestoperartorReconciler struct {
 func (r *TestoperartorReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	_ = log.FromContext(ctx)
 
-	var testOperator kubikiv1.Testoperartor
-	if err := r.Get(ctx, req.NamespacedName, &testOperator); err != nil {
+	var hephaestusDeployment kubikiv1.Hephaesdeployment
+	if err := r.Get(ctx, req.NamespacedName, &hephaestusDeployment); err != nil {
 		log.Log.Error(err, "unable to fetch Test Operator")
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	log.Log.Info("Reconciling Test Operator", "Test Operator", testOperator)
-	log.FromContext(ctx).Info("Pod Image is ", "PodImageName", testOperator.Spec.PodImage)
-	if testOperator.Spec.PodImage == "" {
+	log.Log.Info("Reconciling Test Operator", "Test Operator", hephaestusDeployment)
+	log.FromContext(ctx).Info("Pod Image is ", "PodImageName", hephaestusDeployment.Spec.PodImage)
+	if hephaestusDeployment.Spec.PodImage == "" {
 		log.Log.Info("Pod Image is not set")
 	} else {
-		log.Log.Info("Pod Image is set", "PodImageName", testOperator.Spec.PodImage)
+		log.Log.Info("Pod Image is set", "PodImageName", hephaestusDeployment.Spec.PodImage)
 	}
 	one := int32(1)
 	deployment := &appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      testOperator.Name + "-deployment",
-			Namespace: testOperator.Namespace,
+			Name:      hephaestusDeployment.Name + "-deployment",
+			Namespace: hephaestusDeployment.Namespace,
 		},
 		Spec: appsv1.DeploymentSpec{
 			Replicas: &one,
 			Selector: &metav1.LabelSelector{
 				MatchLabels: map[string]string{
-					"app": testOperator.Name,
+					"app": hephaestusDeployment.Name,
 				},
 			},
 			Template: corev1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
 					Labels: map[string]string{
-						"app": testOperator.Name,
+						"app": hephaestusDeployment.Name,
 					},
 				},
 				Spec: corev1.PodSpec{
 					Containers: []corev1.Container{
 						{
-							Name:  testOperator.Name,
-							Image: testOperator.Spec.PodImage,
+							Name:  hephaestusDeployment.Name,
+							Image: hephaestusDeployment.Spec.PodImage,
 							Env: []corev1.EnvVar{
 								{
 									Name:  "prometheus.address",
@@ -136,6 +136,6 @@ func (r *TestoperartorReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 
 func (r *TestoperartorReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&kubikiv1.Testoperartor{}).
+		For(&kubikiv1.Hephaesdeployment{}).
 		Complete(r)
 }
