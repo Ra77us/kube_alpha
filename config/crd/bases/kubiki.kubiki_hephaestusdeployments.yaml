@@ -5,20 +5,21 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.11.1
   creationTimestamp: null
-  name: testoperartors.kubiki.kubiki.alpha
+  name: hephaestusdeployments.kubiki.kubiki
 spec:
-  group: kubiki.kubiki.alpha
+  group: kubiki.kubiki
   names:
-    kind: Testoperartor
-    listKind: TestoperartorList
-    plural: testoperartors
-    singular: testoperartor
+    kind: HephaestusDeployment
+    listKind: HephaestusDeploymentList
+    plural: hephaestusdeployments
+    singular: hephaestusdeployment
   scope: Namespaced
   versions:
   - name: v1
     schema:
       openAPIV3Schema:
-        description: Testoperartor is the Schema for the testoperartors API
+        description: HephaestusDeployment is the Schema for the hephaestusdeployments
+          API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -33,15 +34,18 @@ spec:
           metadata:
             type: object
           spec:
-            description: TestoperartorSpec defines the desired state of Testoperartor
+            description: HephaestusDeploymentSpec defines the desired state of HephaestusDeployment
             properties:
-              podImage:
-                description: Foo is an example field of Testoperartor. Edit testoperartor_types.go
-                  to remove/update
+              guiVersion:
+                description: Foo is an example field of HephaestusDeployment. Edit
+                  hephaestusdeployment_types.go to remove/update
+                type: string
+              prometheusAddress:
                 type: string
             type: object
           status:
-            description: TestoperartorStatus defines the observed state of Testoperartor
+            description: HephaestusDeploymentStatus defines the observed state of
+              HephaestusDeployment
             type: object
         type: object
     served: true

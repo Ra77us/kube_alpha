@@ -23,17 +23,18 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// TestoperartorSpec defines the desired state of Testoperartor
-type TestoperartorSpec struct {
+// HephaestusDeploymentSpec defines the desired state of HephaestusDeployment
+type HephaestusDeploymentSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	// Foo is an example field of Testoperartor. Edit testoperartor_types.go to remove/update
-	PodImage string `json:"podImage,omitempty"`
+	// Foo is an example field of HephaestusDeployment. Edit hephaestusdeployment_types.go to remove/update
+	GuiVersion        string `json:"guiVersion,omitempty"`
+	PrometheusAddress string `json:"prometheusAddress,omitempty"`
 }
 
-// TestoperartorStatus defines the observed state of Testoperartor
-type TestoperartorStatus struct {
+// HephaestusDeploymentStatus defines the observed state of HephaestusDeployment
+type HephaestusDeploymentStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 }
@@ -41,24 +42,24 @@ type TestoperartorStatus struct {
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
 
-// Testoperartor is the Schema for the testoperartors API
-type Testoperartor struct {
+// HephaestusDeployment is the Schema for the hephaestusdeployments API
+type HephaestusDeployment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   TestoperartorSpec   `json:"spec,omitempty"`
-	Status TestoperartorStatus `json:"status,omitempty"`
+	Spec   HephaestusDeploymentSpec   `json:"spec,omitempty"`
+	Status HephaestusDeploymentStatus `json:"status,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 
-// TestoperartorList contains a list of Testoperartor
-type TestoperartorList struct {
+// HephaestusDeploymentList contains a list of HephaestusDeployment
+type HephaestusDeploymentList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Testoperartor `json:"items"`
+	Items           []HephaestusDeployment `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&Testoperartor{}, &TestoperartorList{})
+	SchemeBuilder.Register(&HephaestusDeployment{}, &HephaestusDeploymentList{})
 }

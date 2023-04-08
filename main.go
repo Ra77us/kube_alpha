@@ -31,8 +31,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	kubikiv1 "kubiki.alpha/test2/api/v1"
-	"kubiki.alpha/test2/controllers"
+	kubikiv1 "kubiki/operator/api/v1"
+	"kubiki/operator/controllers"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -71,7 +71,7 @@ func main() {
 		Port:                   9443,
 		HealthProbeBindAddress: probeAddr,
 		LeaderElection:         enableLeaderElection,
-		LeaderElectionID:       "f82b6d67.kubiki.alpha",
+		LeaderElectionID:       "29b27489.kubiki",
 		// LeaderElectionReleaseOnCancel defines if the leader should step down voluntarily
 		// when the Manager ends. This requires the binary to immediately end when the
 		// Manager is stopped, otherwise, this setting is unsafe. Setting this significantly
@@ -89,11 +89,11 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err = (&controllers.TestoperartorReconciler{
+	if err = (&controllers.HephaestusDeploymentReconciler{
 		Client: mgr.GetClient(),
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "Testoperartor")
+		setupLog.Error(err, "unable to create controller", "controller", "HephaestusDeployment")
 		os.Exit(1)
 	}
 	//+kubebuilder:scaffold:builder

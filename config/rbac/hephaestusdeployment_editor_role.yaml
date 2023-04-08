@@ -1,20 +1,20 @@
-# permissions for end users to edit testoperartors.
+# permissions for end users to edit hephaestusdeployments.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   labels:
     app.kubernetes.io/name: clusterrole
-    app.kubernetes.io/instance: testoperartor-editor-role
+    app.kubernetes.io/instance: hephaestusdeployment-editor-role
     app.kubernetes.io/component: rbac
-    app.kubernetes.io/created-by: kube2
-    app.kubernetes.io/part-of: kube2
+    app.kubernetes.io/created-by: tmp2
+    app.kubernetes.io/part-of: tmp2
     app.kubernetes.io/managed-by: kustomize
-  name: testoperartor-editor-role
+  name: hephaestusdeployment-editor-role
 rules:
 - apiGroups:
-  - kubiki.kubiki.alpha
+  - kubiki.kubiki
   resources:
-  - testoperartors
+  - hephaestusdeployments
   verbs:
   - create
   - delete
@@ -24,8 +24,8 @@ rules:
   - update
   - watch
 - apiGroups:
-  - kubiki.kubiki.alpha
+  - kubiki.kubiki
   resources:
-  - testoperartors/status
+  - hephaestusdeployments/status
   verbs:
   - get
