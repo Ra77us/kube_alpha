@@ -1,24 +1,27 @@
+# permissions for end users to view testoperartors.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   labels:
     app.kubernetes.io/name: clusterrole
-    app.kubernetes.io/instance: proxy-role
-    app.kubernetes.io/component: kube-rbac-proxy
+    app.kubernetes.io/instance: testoperartor-viewer-role
+    app.kubernetes.io/component: rbac
     app.kubernetes.io/created-by: kube2
     app.kubernetes.io/part-of: kube2
     app.kubernetes.io/managed-by: kustomize
-  name: proxy-role
+  name: testoperartor-viewer-role
 rules:
 - apiGroups:
-  - authentication.k8s.io
+  - kubiki.kubiki.alpha
   resources:
-  - tokenreviews
+  - testoperartors
   verbs:
-  - create
+  - get
+  - list
+  - watch
 - apiGroups:
-  - authorization.k8s.io
+  - kubiki.kubiki.alpha
   resources:
-  - subjectaccessreviews
+  - testoperartors/status
   verbs:
-  - create
+  - get

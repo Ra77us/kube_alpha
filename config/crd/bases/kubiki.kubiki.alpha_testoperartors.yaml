@@ -5,19 +5,20 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.11.1
   creationTimestamp: null
-  name: tests.alpha.kubiki
+  name: testoperartors.kubiki.kubiki.alpha
 spec:
-  group: alpha.kubiki
+  group: kubiki.kubiki.alpha
   names:
-    kind: Test
-    listKind: TestList
-    plural: tests
-    singular: test
+    kind: Testoperartor
+    listKind: TestoperartorList
+    plural: testoperartors
+    singular: testoperartor
   scope: Namespaced
   versions:
   - name: v1
     schema:
       openAPIV3Schema:
+        description: Testoperartor is the Schema for the testoperartors API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -32,17 +33,18 @@ spec:
           metadata:
             type: object
           spec:
-            description: TestSpec defines the desired state of Test
+            description: TestoperartorSpec defines the desired state of Testoperartor
             properties:
-              name:
+              podImage:
+                description: Foo is an example field of Testoperartor. Edit testoperartor_types.go
+                  to remove/update
                 type: string
             type: object
           status:
-            description: TestStatus defines the observed state of Test
-            properties:
-              status:
-                type: boolean
+            description: TestoperartorStatus defines the observed state of Testoperartor
             type: object
         type: object
     served: true
     storage: true
+    subresources:
+      status: {}

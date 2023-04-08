@@ -1,20 +1,20 @@
-# permissions for end users to edit tests.
+# permissions for end users to edit testoperartors.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   labels:
     app.kubernetes.io/name: clusterrole
-    app.kubernetes.io/instance: test-editor-role
+    app.kubernetes.io/instance: testoperartor-editor-role
     app.kubernetes.io/component: rbac
-    app.kubernetes.io/created-by: kube
-    app.kubernetes.io/part-of: kube
+    app.kubernetes.io/created-by: kube2
+    app.kubernetes.io/part-of: kube2
     app.kubernetes.io/managed-by: kustomize
-  name: test-editor-role
+  name: testoperartor-editor-role
 rules:
 - apiGroups:
-  - alpha.kubiki
+  - kubiki.kubiki.alpha
   resources:
-  - tests
+  - testoperartors
   verbs:
   - create
   - delete
@@ -24,8 +24,8 @@ rules:
   - update
   - watch
 - apiGroups:
-  - alpha.kubiki
+  - kubiki.kubiki.alpha
   resources:
-  - tests/status
+  - testoperartors/status
   verbs:
   - get

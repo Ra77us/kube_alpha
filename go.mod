@@ -1,4 +1,4 @@
-module kubiki/alpha
+module kubiki.alpha/test2
 
 go 1.19
 

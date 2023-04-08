@@ -14,9 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// Package v1 contains API Schema definitions for the alpha v1 API group
+// Package v1 contains API Schema definitions for the kubiki v1 API group
 // +kubebuilder:object:generate=true
-// +groupName=alpha.kubiki
+// +groupName=kubiki.kubiki.alpha
 package v1
 
 import (
@@ -26,7 +26,7 @@ import (
 
 var (
 	// GroupVersion is group version used to register these objects
-	GroupVersion = schema.GroupVersion{Group: "alpha.kubiki", Version: "v1"}
+	GroupVersion = schema.GroupVersion{Group: "kubiki.kubiki.alpha", Version: "v1"}
 
 	// SchemeBuilder is used to add go types to the GroupVersionKind scheme
 	SchemeBuilder = &scheme.Builder{GroupVersion: GroupVersion}
