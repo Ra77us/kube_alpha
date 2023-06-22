@@ -48,8 +48,27 @@ type HephaestusDeploymentReconciler struct {
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.15.0/pkg/reconcile
 func (r *HephaestusDeploymentReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	_ = log.FromContext(ctx)
+	var hephaestusDeployment operatorv1.HephaestusDeployment
+	if err := r.Get(ctx, req.NamespacedName, &hephaestusDeployment); err != nil {
+		log.Log.Error(err, "unable to fetch Hesphaestus Deployment")
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
 
-	log.Log.Info(hephaestusDeployment.Spec.HephaestusGuiVersion)
+	log.Log.Info("Reconciling Test Hesphaestus Deployment", "Hesphaestus Deployment", hephaestusDeployment)
+	log.FromContext(ctx).Info("GUI Version is ", "HephaestusGuiVersion", hephaestusDeployment.Spec.HephaestusGuiVersion)
+
+	if hephaestusDeployment.Spec.HephaestusGuiVersion == "" {
+		log.Log.Info("GUI Version is not set")
+	} else {
+		log.Log.Info("GUI Version is set", "HephaestusGuiVersion", hephaestusDeployment.Spec.HephaestusGuiVersion)
+	}
+
+	deployment := getGuiDeployment(hephaestusDeployment)
+	if err := r.Create(ctx, &deployment); err != nil {
+		log.Log.Error(err, "unable to create Deployment", "Deployment.Namespace", deployment.Namespace, "Deployment.Name", deployment.Name)
+		return ctrl.Result{}, err
+	}
+	log.Log.Info("Created Deployment", "Deployment.Namespace", deployment.Namespace, "Deployment.Name", deployment.Name)
 
 	return ctrl.Result{}, nil
 }

@@ -29,8 +29,8 @@ type HephaestusDeploymentSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	// +kubebuilder:validation:Required
-	HephaestusGuiVersion string `json:"hephaestusGuiVersion"`
-	HephaestusGuiConfigMapRaw string `json:"hephaestusGuiConfigMapRaw,omitempty"`
+	HephaestusGuiVersion           string `json:"hephaestusGuiVersion"`
+	HephaestusGuiConfigMapRaw      string `json:"hephaestusGuiConfigMapRaw,omitempty"`
 	HephaestusGuiConfigMapFilePath string `json:"hephaestusGuiConfigMapFilePath,omitempty"`
 	// +kubebuilder:validation:Required
 	PrometheusAddress string `json:"prometheusAddress"`
