@@ -1,0 +1,12 @@
+apiVersion: tutorial.kubiki.amocna/v1
+kind: HephaestusDeployment
+metadata:
+  labels:
+    app.kubernetes.io/name: hephaestusdeployment
+    app.kubernetes.io/instance: hephaestusdeployment-sample
+    app.kubernetes.io/part-of: operator
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: operator
+  name: hephaestusdeployment-sample
+spec:
+  # TODO(user): Add fields here
