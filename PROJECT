@@ -4,26 +4,17 @@
 # More info: https://book.kubebuilder.io/reference/project-config.html
 domain: kubiki
 layout:
-- go.kubebuilder.io/v3
-projectName: kube
-repo: kubiki/alpha
+- go.kubebuilder.io/v4
+projectName: nn
+repo: kubiki/operator
 resources:
 - api:
     crdVersion: v1
     namespaced: true
   controller: true
   domain: kubiki
-  group: alpha
-  kind: Test
-  path: kubiki/alpha/api/v1
-  version: v1
-- api:
-    crdVersion: v1
-    namespaced: true
-  controller: true
-  domain: kubiki
-  group: alpha
-  kind: Foo
-  path: kubiki/alpha/api/v1
+  group: operator
+  kind: HephaestusDeployment
+  path: kubiki/operator/api/v1
   version: v1
 version: "3"

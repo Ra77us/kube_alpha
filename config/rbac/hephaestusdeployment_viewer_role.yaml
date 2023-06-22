@@ -1,0 +1,27 @@
+# permissions for end users to view hephaestusdeployments.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: hephaestusdeployment-viewer-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: nn
+    app.kubernetes.io/part-of: nn
+    app.kubernetes.io/managed-by: kustomize
+  name: hephaestusdeployment-viewer-role
+rules:
+- apiGroups:
+  - operator.kubiki
+  resources:
+  - hephaestusdeployments
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - operator.kubiki
+  resources:
+  - hephaestusdeployments/status
+  verbs:
+  - get
