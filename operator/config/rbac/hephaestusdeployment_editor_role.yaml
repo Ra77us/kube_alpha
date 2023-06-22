@@ -12,7 +12,7 @@ metadata:
   name: hephaestusdeployment-editor-role
 rules:
 - apiGroups:
-  - tutorial.kubiki.amocna
+  - operator.kubiki.amocna
   resources:
   - hephaestusdeployments
   verbs:
@@ -24,7 +24,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - tutorial.kubiki.amocna
+  - operator.kubiki.amocna
   resources:
   - hephaestusdeployments/status
   verbs:

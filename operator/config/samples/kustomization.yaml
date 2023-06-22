@@ -1,4 +1,4 @@
 ## Append samples of your project ##
 resources:
-- tutorial_v1_hephaestusdeployment.yaml
+- operator_v1_hephaestusdeployment.yaml
 #+kubebuilder:scaffold:manifestskustomizesamples

@@ -13,7 +13,7 @@ resources:
     namespaced: true
   controller: true
   domain: kubiki.amocna
-  group: tutorial
+  group: operator
   kind: HephaestusDeployment
   path: kubiki.amocna/operator/api/v1
   version: v1

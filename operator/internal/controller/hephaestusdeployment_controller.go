@@ -24,7 +24,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
-	tutorialv1 "kubiki.amocna/operator/api/v1"
+	operatorv1 "kubiki.amocna/operator/api/v1"
 )
 
 // HephaestusDeploymentReconciler reconciles a HephaestusDeployment object
@@ -33,9 +33,9 @@ type HephaestusDeploymentReconciler struct {
 	Scheme *runtime.Scheme
 }
 
-//+kubebuilder:rbac:groups=tutorial.kubiki.amocna,resources=hephaestusdeployments,verbs=get;list;watch;create;update;patch;delete
-//+kubebuilder:rbac:groups=tutorial.kubiki.amocna,resources=hephaestusdeployments/status,verbs=get;update;patch
-//+kubebuilder:rbac:groups=tutorial.kubiki.amocna,resources=hephaestusdeployments/finalizers,verbs=update
+//+kubebuilder:rbac:groups=operator.kubiki.amocna,resources=hephaestusdeployments,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=operator.kubiki.amocna,resources=hephaestusdeployments/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=operator.kubiki.amocna,resources=hephaestusdeployments/finalizers,verbs=update
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
@@ -49,7 +49,7 @@ type HephaestusDeploymentReconciler struct {
 func (r *HephaestusDeploymentReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	_ = log.FromContext(ctx)
 
-	// TODO(user): your logic here
+	log.Log.Info(hephaestusDeployment.Spec.HephaestusGuiVersion)
 
 	return ctrl.Result{}, nil
 }
@@ -57,6 +57,6 @@ func (r *HephaestusDeploymentReconciler) Reconcile(ctx context.Context, req ctrl
 // SetupWithManager sets up the controller with the Manager.
 func (r *HephaestusDeploymentReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&tutorialv1.HephaestusDeployment{}).
+		For(&operatorv1.HephaestusDeployment{}).
 		Complete(r)
 }

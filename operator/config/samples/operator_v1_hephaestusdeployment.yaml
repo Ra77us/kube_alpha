@@ -1,4 +1,4 @@
-apiVersion: tutorial.kubiki.amocna/v1
+apiVersion: operator.kubiki.amocna/v1
 kind: HephaestusDeployment
 metadata:
   labels:

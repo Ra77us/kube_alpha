@@ -31,7 +31,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	tutorialv1 "kubiki.amocna/operator/api/v1"
+	operatorv1 "kubiki.amocna/operator/api/v1"
 	"kubiki.amocna/operator/internal/controller"
 	//+kubebuilder:scaffold:imports
 )
@@ -44,7 +44,7 @@ var (
 func init() {
 	utilruntime.Must(clientgoscheme.AddToScheme(scheme))
 
-	utilruntime.Must(tutorialv1.AddToScheme(scheme))
+	utilruntime.Must(operatorv1.AddToScheme(scheme))
 	//+kubebuilder:scaffold:scheme
 }
 
