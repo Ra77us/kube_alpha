@@ -59,12 +59,12 @@ func (r *HephaestusDeploymentReconciler) Reconcile(ctx context.Context, req ctrl
 
 	//volume
 
-	volumeDeployment := getVolumeDeployment(hephaestusDeployment)
-	if err := r.Create(ctx, &volumeDeployment); err != nil {
-		log.Log.Error(err, "unable to create volume Deployment", volumeDeployment.Name)
-		return ctrl.Result{}, err
-	}
-	log.Log.Info("Created Deployment", volumeDeployment.Name)
+	//volumeDeployment := getVolumeDeployment(hephaestusDeployment)
+	//if err := r.Create(ctx, &volumeDeployment); err != nil {
+	//	log.Log.Error(err, "unable to create volume Deployment", volumeDeployment.Name)
+	//	return ctrl.Result{}, err
+	//}
+	//log.Log.Info("Created Deployment", volumeDeployment.Name)
 
 	//gui
 	log.FromContext(ctx).Info("GUI Version is ", "HephaestusGuiVersion", hephaestusDeployment.Spec.HephaestusGuiVersion)
