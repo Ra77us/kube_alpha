@@ -35,9 +35,12 @@ type HephaestusDeploymentSpec struct {
 	// +kubebuilder:validation:Required
 	PrometheusAddress string `json:"prometheusAddress"`
 	// +kubebuilder:validation:Required
-	ExecutionControllerAddress string `json:"executionControllerAddress"`
+	ExecutionControllerImage string `json:"executionControllerImage"`
 	// +kubebuilder:validation:Required
-	MetricsAdapterAddress string `json:"metricsAdapterAddress"`
+	MetricsAdapterVersion   string `json:"metricsAdapterVersion"`
+	MetricsAdapterPort      string `json:"metricsAdapterPort"`
+	HephaestusGuiPort       string `json:"hephaestusGuiPort"`
+	ExecutionControllerPort string `json:"executionControllerPort"`
 }
 
 // HephaestusDeploymentStatus defines the observed state of HephaestusDeployment

@@ -5,5 +5,8 @@ metadata:
 spec:
   hephaestusGuiVersion: "fff"
   prometheusAddress: "c"
-  executionControllerAddress: "c"
-  metricsAdapterAddress: "b"
+  executionControllerImage: "c"
+  metricsAdapterVersion: "b"
+  metricsAdapterPort: "a"
+  hephaestusGuiPort: "b"
+  executionControllerPort: "c"

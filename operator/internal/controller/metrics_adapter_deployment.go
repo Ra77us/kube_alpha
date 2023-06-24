@@ -8,11 +8,11 @@ import (
 	operatorv1 "kubiki.amocna/operator/api/v1"
 )
 
-func getGuiDeployment(hephaestusDeployment operatorv1.HephaestusDeployment) appsv1.Deployment {
+func getMetricsAdapterDeployment(hephaestusDeployment operatorv1.HephaestusDeployment) appsv1.Deployment {
 	one := int32(1)
 	return appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      hephaestusDeployment.Name + "-gui-deployment",
+			Name:      hephaestusDeployment.Name + "-metricsadapter-deployment",
 			Namespace: hephaestusDeployment.Namespace,
 		},
 		Spec: appsv1.DeploymentSpec{
@@ -32,23 +32,15 @@ func getGuiDeployment(hephaestusDeployment operatorv1.HephaestusDeployment) apps
 					Containers: []corev1.Container{
 						{
 							Name:  hephaestusDeployment.Name,
-							Image: "hephaestusmetrics/gui:" + hephaestusDeployment.Spec.HephaestusGuiVersion,
+							Image: "hephaestusmetrics/metrics-adapter:" + hephaestusDeployment.Spec.MetricsAdapterVersion,
 							Env: []corev1.EnvVar{
 								{
-									Name:  "prometheus.address",
-									Value: hephaestusDeployment.Spec.PrometheusAddress,
+									Name:  "backend",
+									Value: "http://hephaestus-gui." + hephaestusDeployment.Namespace + ":8080",
 								},
 								{
-									Name:  "saved.path",
-									Value: "/../storage/metrics/savedMetrics/metrics.json",
-								},
-								{
-									Name:  "config.path",
-									Value: "/../storage/metrics/configMetrics/metrics.json",
-								},
-								{
-									Name:  "logs.path",
-									Value: "/../storage/logs",
+									Name:  "kubernetes-management",
+									Value: "http://execution-controller." + hephaestusDeployment.Namespace + ":8097",
 								},
 							},
 							ImagePullPolicy: corev1.PullPolicy("Always"),
