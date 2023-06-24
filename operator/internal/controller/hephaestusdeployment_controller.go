@@ -48,6 +48,7 @@ type HephaestusDeploymentReconciler struct {
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.15.0/pkg/reconcile
 func (r *HephaestusDeploymentReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	_ = log.FromContext(ctx)
+
 	var hephaestusDeployment operatorv1.HephaestusDeployment
 	if err := r.Get(ctx, req.NamespacedName, &hephaestusDeployment); err != nil {
 		log.Log.Error(err, "unable to fetch Hesphaestus Deployment")
@@ -59,7 +60,7 @@ func (r *HephaestusDeploymentReconciler) Reconcile(ctx context.Context, req ctrl
 	//volume
 
 	volumeDeployment := getVolumeDeployment(hephaestusDeployment)
-	if err := r.Create(ctx, &guiDeployment); err != nil {
+	if err := r.Create(ctx, &volumeDeployment); err != nil {
 		log.Log.Error(err, "unable to create volume Deployment", volumeDeployment.Name)
 		return ctrl.Result{}, err
 	}
@@ -87,7 +88,7 @@ func (r *HephaestusDeploymentReconciler) Reconcile(ctx context.Context, req ctrl
 	if hephaestusDeployment.Spec.MetricsAdapterImage == "" {
 		log.Log.Info("Metrics Adapter Image is not set")
 	} else {
-		log.Log.Info("Metrics Adapter Image is set", "MetricsAdapterVersion", hephaestusDeployment.Spec.MetricsAdapterImage)
+		log.Log.Info("Metrics Adapter Image is set", "MetricsAdapterImage", hephaestusDeployment.Spec.MetricsAdapterImage)
 	}
 
 	metricsAdapterDeployment := getMetricsAdapterDeployment(hephaestusDeployment)
