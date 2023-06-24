@@ -6,7 +6,7 @@ spec:
   hephaestusGuiVersion: "fff"
   prometheusAddress: "c"
   executionControllerImage: "c"
-  metricsAdapterVersion: "b"
+  metricsAdapterImage: "b"
   metricsAdapterPort: "a"
   hephaestusGuiPort: "b"
   executionControllerPort: "c"

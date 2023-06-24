@@ -37,7 +37,7 @@ type HephaestusDeploymentSpec struct {
 	// +kubebuilder:validation:Required
 	ExecutionControllerImage string `json:"executionControllerImage"`
 	// +kubebuilder:validation:Required
-	MetricsAdapterVersion   string `json:"metricsAdapterVersion"`
+	MetricsAdapterImage     string `json:"metricsAdapterImage"`
 	MetricsAdapterPort      string `json:"metricsAdapterPort"`
 	HephaestusGuiPort       string `json:"hephaestusGuiPort"`
 	ExecutionControllerPort string `json:"executionControllerPort"`
