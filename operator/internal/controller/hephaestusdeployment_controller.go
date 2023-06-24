@@ -63,12 +63,28 @@ func (r *HephaestusDeploymentReconciler) Reconcile(ctx context.Context, req ctrl
 		log.Log.Info("GUI Version is set", "HephaestusGuiVersion", hephaestusDeployment.Spec.HephaestusGuiVersion)
 	}
 
-	deployment := getGuiDeployment(hephaestusDeployment)
-	if err := r.Create(ctx, &deployment); err != nil {
-		log.Log.Error(err, "unable to create Deployment", "Deployment.Namespace", deployment.Namespace, "Deployment.Name", deployment.Name)
+	guiDeployment := getGuiDeployment(hephaestusDeployment)
+	if err := r.Create(ctx, &guiDeployment); err != nil {
+		log.Log.Error(err, "unable to create Deployment", "Deployment.Namespace", guiDeployment.Namespace, "Deployment.Name", guiDeployment.Name)
 		return ctrl.Result{}, err
 	}
-	log.Log.Info("Created Deployment", "Deployment.Namespace", deployment.Namespace, "Deployment.Name", deployment.Name)
+	log.Log.Info("Created Deployment", "Deployment.Namespace", guiDeployment.Namespace, "Deployment.Name", guiDeployment.Name)
+
+	//metrics-adapter
+	log.FromContext(ctx).Info("Metrics Adapter Version is ", "MetricsAdapterVersion", hephaestusDeployment.Spec.MetricsAdapterVersion)
+
+	if hephaestusDeployment.Spec.MetricsAdapterVersion == "" {
+		log.Log.Info("Metrics Adapter Version is not set")
+	} else {
+		log.Log.Info("Metrics Adapter Version is set", "MetricsAdapterGuiVersion", hephaestusDeployment.Spec.MetricsAdapterVersion)
+	}
+
+	metricsAdapterDeployment := getMetricsAdapterDeployment(hephaestusDeployment)
+	if err := r.Create(ctx, &guiDeployment); err != nil {
+		log.Log.Error(err, "unable to create metrics adapter Deployment", "Deployment.Namespace", metricsAdapterDeployment.Namespace, "Deployment.Name", metricsAdapterDeployment.Name)
+		return ctrl.Result{}, err
+	}
+	log.Log.Info("Created Deployment", "Deployment.Namespace", metricsAdapterDeployment.Namespace, "Deployment.Name", metricsAdapterDeployment.Name)
 
 	return ctrl.Result{}, nil
 }

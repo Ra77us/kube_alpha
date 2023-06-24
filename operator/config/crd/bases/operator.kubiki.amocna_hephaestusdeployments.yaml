@@ -37,20 +37,29 @@ spec:
             properties:
               executionControllerAddress:
                 type: string
+              hephaestusGuiAddress:
+                type: string
               hephaestusGuiConfigMapFilePath:
                 type: string
               hephaestusGuiConfigMapRaw:
                 type: string
               hephaestusGuiVersion:
                 type: string
+              kubernetesManagementAddress:
+                type: string
               metricsAdapterAddress:
+                type: string
+              metricsAdapterVersion:
                 type: string
               prometheusAddress:
                 type: string
             required:
             - executionControllerAddress
+            - hephaestusGuiAddress
             - hephaestusGuiVersion
+            - kubernetesManagementAddress
             - metricsAdapterAddress
+            - metricsAdapterVersion
             - prometheusAddress
             type: object
           status:

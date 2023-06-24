@@ -28,16 +28,15 @@ type HephaestusDeploymentSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	// +kubebuilder:validation:Required
 	HephaestusGuiVersion           string `json:"hephaestusGuiVersion"`
 	HephaestusGuiConfigMapRaw      string `json:"hephaestusGuiConfigMapRaw,omitempty"`
 	HephaestusGuiConfigMapFilePath string `json:"hephaestusGuiConfigMapFilePath,omitempty"`
-	// +kubebuilder:validation:Required
-	PrometheusAddress string `json:"prometheusAddress"`
-	// +kubebuilder:validation:Required
-	ExecutionControllerAddress string `json:"executionControllerAddress"`
-	// +kubebuilder:validation:Required
-	MetricsAdapterAddress string `json:"metricsAdapterAddress"`
+	PrometheusAddress              string `json:"prometheusAddress"`
+	ExecutionControllerAddress     string `json:"executionControllerAddress"`
+	MetricsAdapterAddress          string `json:"metricsAdapterAddress"`
+	MetricsAdapterVersion          string `json:"metricsAdapterVersion"`
+	HephaestusGuiAddress           string `json:"hephaestusGuiAddress"`
+	KubernetesManagementAddress    string `json:"kubernetesManagementAddress"`
 }
 
 // HephaestusDeploymentStatus defines the observed state of HephaestusDeployment

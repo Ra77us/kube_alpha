@@ -3,7 +3,7 @@ kind: HephaestusDeployment
 metadata:
   name: hephaestusdeployment-sample
 spec:
-  hephaestusGuiVersion: "fff"
-  prometheusAddress: "c"
-  executionControllerAddress: "c"
+  hephaestusGuiVersion: "latest"
+  prometheusAddress: "prometheus.monitoring:9090"
+  executionControllerAddress: "http://kubernetes-management.kubernetes-management:8097"
   metricsAdapterAddress: "b"

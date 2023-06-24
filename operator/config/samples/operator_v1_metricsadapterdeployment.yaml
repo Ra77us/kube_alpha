@@ -1,0 +1,8 @@
+apiVersion: operator.kubiki.amocna/v1
+kind: HephaestusDeployment
+metadata:
+  name: hephaestusdeployment-sample
+spec:
+  metricsAdapterVersion: "latest"
+  hephaestusGuiAddress: "http://hephaestus-gui.hephaestus:8080"
+  kubernetesManagementAddress: "http://kubernetes-management.kubernetes-management:8097"
