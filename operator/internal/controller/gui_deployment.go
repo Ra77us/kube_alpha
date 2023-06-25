@@ -10,6 +10,7 @@ import (
 
 func getGuiDeployment(hephaestusDeployment operatorv1.HephaestusDeployment, shouldMountConfigMap bool) appsv1.Deployment {
 	one := int32(1)
+	port := getPortOrDefault(hephaestusDeployment.Spec.HephaestusGuiInternalPort, 8080)
 	if shouldMountConfigMap {
 		return appsv1.Deployment{
 			ObjectMeta: metav1.ObjectMeta{
@@ -55,7 +56,7 @@ func getGuiDeployment(hephaestusDeployment operatorv1.HephaestusDeployment, shou
 								ImagePullPolicy: corev1.PullPolicy("Always"),
 								Ports: []corev1.ContainerPort{
 									{
-										ContainerPort: 8080,
+										ContainerPort: port,
 									},
 								},
 								VolumeMounts: []corev1.VolumeMount{
@@ -145,7 +146,7 @@ func getGuiDeployment(hephaestusDeployment operatorv1.HephaestusDeployment, shou
 								ImagePullPolicy: corev1.PullPolicy("Always"),
 								Ports: []corev1.ContainerPort{
 									{
-										ContainerPort: 8080,
+										ContainerPort: port,
 									},
 								},
 								VolumeMounts: []corev1.VolumeMount{

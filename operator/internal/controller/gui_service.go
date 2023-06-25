@@ -8,6 +8,8 @@ import (
 )
 
 func getGuiService(hephaestusDeployment operatorv1.HephaestusDeployment) corev1.Service {
+	internalPort := getPortOrDefault(hephaestusDeployment.Spec.HephaestusGuiInternalPort, 8080)
+	externalPort := getPortOrDefault(hephaestusDeployment.Spec.HephaestusGuiExternalPort, 31122)
 	return corev1.Service{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      hephaestusDeployment.Name + "-hephaestus-gui-service",
@@ -20,11 +22,11 @@ func getGuiService(hephaestusDeployment operatorv1.HephaestusDeployment) corev1.
 			Type: "NodePort",
 			Ports: []corev1.ServicePort{{
 				Protocol: "TCP",
-				Port:     8080,
+				Port:     internalPort,
 				TargetPort: intstr.IntOrString{
-					IntVal: 8080,
+					IntVal: internalPort,
 				},
-				NodePort: 31122,
+				NodePort: externalPort,
 			}},
 		},
 	}

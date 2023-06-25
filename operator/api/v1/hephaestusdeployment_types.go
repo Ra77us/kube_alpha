@@ -37,10 +37,11 @@ type HephaestusDeploymentSpec struct {
 	// +kubebuilder:validation:Required
 	ExecutionControllerImage string `json:"executionControllerImage"`
 	// +kubebuilder:validation:Required
-	MetricsAdapterImage     string `json:"metricsAdapterImage"`
-	MetricsAdapterPort      string `json:"metricsAdapterPort,omitempty"`
-	HephaestusGuiPort       string `json:"hephaestusGuiPort,omitempty"`
-	ExecutionControllerPort string `json:"executionControllerPort,omitempty"`
+	MetricsAdapterImage             string `json:"metricsAdapterImage"`
+	MetricsAdapterInternalPort      int32  `json:"metricsAdapterInternalPort,omitempty"`
+	HephaestusGuiInternalPort       int32  `json:"hephaestusGuiInternalPort,omitempty"`
+	HephaestusGuiExternalPort       int32  `json:"hephaestusGuiExternalPort,omitempty"`
+	ExecutionControllerInternalPort int32  `json:"executionControllerInternalPort,omitempty"`
 }
 
 // HephaestusDeploymentStatus defines the observed state of HephaestusDeployment

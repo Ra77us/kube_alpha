@@ -1,15 +1,18 @@
 package controller
 
 import (
+	"fmt"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-
 	operatorv1 "kubiki.amocna/operator/api/v1"
 )
 
 func getMetricsAdapterDeployment(hephaestusDeployment operatorv1.HephaestusDeployment) appsv1.Deployment {
 	one := int32(1)
+	guiPort := getPortOrDefault(hephaestusDeployment.Spec.HephaestusGuiInternalPort, 8080)
+	executionControllerPort := getPortOrDefault(hephaestusDeployment.Spec.ExecutionControllerInternalPort, 8080)
+	metricsAdapterPort := getPortOrDefault(hephaestusDeployment.Spec.MetricsAdapterInternalPort, 8080)
 	return appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      hephaestusDeployment.Name + "-metrics-adapter-deployment",
@@ -36,17 +39,17 @@ func getMetricsAdapterDeployment(hephaestusDeployment operatorv1.HephaestusDeplo
 							Env: []corev1.EnvVar{
 								{
 									Name:  "backend",
-									Value: "http://hephaestus-gui." + hephaestusDeployment.Namespace + ":8080",
+									Value: "http://" + hephaestusDeployment.Name + "-gui-deployment." + hephaestusDeployment.Namespace + ":" + fmt.Sprint(guiPort),
 								},
 								{
 									Name:  "kubernetes-management",
-									Value: "http://execution-controller." + hephaestusDeployment.Namespace + ":8097",
+									Value: "http://" + hephaestusDeployment.Name + "-execution-controller." + hephaestusDeployment.Namespace + ":" + fmt.Sprint(executionControllerPort),
 								},
 							},
 							ImagePullPolicy: corev1.PullPolicy("Always"),
 							Ports: []corev1.ContainerPort{
 								{
-									ContainerPort: 8080,
+									ContainerPort: metricsAdapterPort,
 								},
 							},
 						},

@@ -37,22 +37,28 @@ spec:
             properties:
               executionControllerImage:
                 type: string
-              executionControllerPort:
-                type: string
+              executionControllerInternalPort:
+                format: int32
+                type: integer
               hephaestusGuiConfigMapFilePath:
                 type: string
               hephaestusGuiConfigMapRaw:
                 additionalProperties:
                   type: string
                 type: object
-              hephaestusGuiPort:
-                type: string
+              hephaestusGuiExternalPort:
+                format: int32
+                type: integer
+              hephaestusGuiInternalPort:
+                format: int32
+                type: integer
               hephaestusGuiVersion:
                 type: string
               metricsAdapterImage:
                 type: string
-              metricsAdapterPort:
-                type: string
+              metricsAdapterInternalPort:
+                format: int32
+                type: integer
               prometheusAddress:
                 type: string
             required:
