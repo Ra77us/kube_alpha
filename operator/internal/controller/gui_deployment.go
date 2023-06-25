@@ -57,6 +57,42 @@ func getGuiDeployment(hephaestusDeployment operatorv1.HephaestusDeployment) apps
 									ContainerPort: 8080,
 								},
 							},
+							VolumeMounts: []corev1.VolumeMount{
+								{
+									Name:      "storage",
+									MountPath: "storage",
+								},
+								{
+									Name:      "config-volume",
+									MountPath: "storage/metrics/configMetrics",
+								},
+							},
+						},
+					},
+					Volumes: []corev1.Volume{
+						{
+							Name: "storage",
+							VolumeSource: corev1.VolumeSource{
+								PersistentVolumeClaim: &corev1.PersistentVolumeClaimVolumeSource{
+									ClaimName: hephaestusDeployment.Name + "-volume-claim",
+								},
+							},
+						},
+						{
+							Name: "config-map",
+							VolumeSource: corev1.VolumeSource{
+								ConfigMap: &corev1.ConfigMapVolumeSource{
+									LocalObjectReference: corev1.LocalObjectReference{
+										Name: "gui-configmap",
+									},
+									Items: []corev1.KeyToPath{
+										{
+											Key:  "metrics.json",
+											Path: "metrics.json",
+										},
+									},
+								},
+							},
 						},
 					},
 				},

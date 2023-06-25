@@ -10,7 +10,7 @@ import (
 func getVolumeDeployment(hephaestusDeployment operatorv1.HephaestusDeployment) corev1.PersistentVolumeClaim {
 	return corev1.PersistentVolumeClaim{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      hephaestusDeployment.Name + "-volume-deployment",
+			Name:      hephaestusDeployment.Name + "-volume-claim",
 			Namespace: hephaestusDeployment.Namespace,
 		},
 		Spec: corev1.PersistentVolumeClaimSpec{
