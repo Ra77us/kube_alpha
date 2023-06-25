@@ -32,7 +32,7 @@ func getMetricsAdapterDeployment(hephaestusDeployment operatorv1.HephaestusDeplo
 					Containers: []corev1.Container{
 						{
 							Name:  hephaestusDeployment.Name,
-							Image: "hephaestusmetrics/metrics-adapter:" + hephaestusDeployment.Spec.MetricsAdapterVersion,
+							Image: hephaestusDeployment.Spec.MetricsAdapterImage,
 							Env: []corev1.EnvVar{
 								{
 									Name:  "backend",

@@ -1,28 +1,24 @@
 package controller
 
 import (
-	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	operatorv1 "kubiki.amocna/operator/api/v1"
 )
 
-func getVolumeDeployment(hephaestusDeployment operatorv1.HephaestusDeployment) appsv1.Deployment {
-	one := int32(1)
-	return appsv1.Deployment{
+func getVolumeDeployment(hephaestusDeployment operatorv1.HephaestusDeployment) corev1.PersistentVolumeClaim {
+	return corev1.PersistentVolumeClaim{
 		ObjectMeta: metav1.ObjectMeta{
-			Name: hephaestusDeployment.Name + "-volume-deployment",
+			Name:      hephaestusDeployment.Name + "-volume-deployment",
+			Namespace: hephaestusDeployment.Namespace,
 		},
-		TypeMeta: metav1.TypeMeta{Kind: "PersistentVolume"},
-		Spec: corev1.PersistentVolumeSpec{
-			StorageClassName: "hephaestus-manual",
-			//AccessModes: []v1.PersistentVolumeAccessMode{
-			//	"ReadWriteOnce",
-			//},
-			//Capacity: "25Mi",
-			PersistentVolumeSource: corev1.PersistentVolumeSource{
-				HostPath: &corev1.HostPathVolumeSource{
-					Path: "/mnt/hephaestus-gui-pv",
+		Spec: corev1.PersistentVolumeClaimSpec{
+			//StorageClassName: "hephaestus-manual",
+			AccessModes: []corev1.PersistentVolumeAccessMode{corev1.ReadWriteOnce},
+			Resources: corev1.ResourceRequirements{
+				Requests: corev1.ResourceList{
+					corev1.ResourceName(corev1.ResourceStorage): resource.MustParse("25Mi"),
 				},
 			},
 		},

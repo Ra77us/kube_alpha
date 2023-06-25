@@ -35,22 +35,31 @@ spec:
           spec:
             description: HephaestusDeploymentSpec defines the desired state of HephaestusDeployment
             properties:
-              executionControllerAddress:
+              executionControllerImage:
+                type: string
+              executionControllerPort:
                 type: string
               hephaestusGuiConfigMapFilePath:
                 type: string
               hephaestusGuiConfigMapRaw:
                 type: string
+              hephaestusGuiPort:
+                type: string
               hephaestusGuiVersion:
                 type: string
-              metricsAdapterAddress:
+              metricsAdapterImage:
+                type: string
+              metricsAdapterPort:
                 type: string
               prometheusAddress:
                 type: string
             required:
-            - executionControllerAddress
+            - executionControllerImage
+            - executionControllerPort
+            - hephaestusGuiPort
             - hephaestusGuiVersion
-            - metricsAdapterAddress
+            - metricsAdapterImage
+            - metricsAdapterPort
             - prometheusAddress
             type: object
           status:
