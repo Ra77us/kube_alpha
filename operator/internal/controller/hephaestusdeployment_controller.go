@@ -59,13 +59,22 @@ func (r *HephaestusDeploymentReconciler) Reconcile(ctx context.Context, req ctrl
 
 	//volume
 
-	//volumeDeployment := getVolumeDeployment(hephaestusDeployment)
-	//if err := r.Create(ctx, &volumeDeployment); err != nil {
-	//	log.Log.Error(err, "unable to create volume Deployment", volumeDeployment.Name)
-	//	return ctrl.Result{}, err
-	//}
-	//log.Log.Info("Created Deployment", volumeDeployment.Name)
+	volumeDeployment := getVolumeDeployment(hephaestusDeployment)
+	if err := r.Create(ctx, &volumeDeployment); err != nil {
+		log.Log.Error(err, "unable to create volume Deployment", "volume", volumeDeployment)
+		return ctrl.Result{}, err
+	}
+	log.Log.Info("Created PVC", "PVC", volumeDeployment.Name)
 
+	//config-map
+	if hephaestusDeployment.Spec.HephaestusGuiConfigMapRaw != nil {
+		configMap := getConfigMap(hephaestusDeployment)
+		if err := r.Create(ctx, &configMap); err != nil {
+			log.Log.Error(err, "Unable to create config map", "config map", configMap)
+			return ctrl.Result{}, err
+		}
+		log.Log.Info("Created Config map", "config map", configMap.Name)
+	}
 	//gui
 	log.FromContext(ctx).Info("GUI Version is ", "HephaestusGuiVersion", hephaestusDeployment.Spec.HephaestusGuiVersion)
 
@@ -75,12 +84,20 @@ func (r *HephaestusDeploymentReconciler) Reconcile(ctx context.Context, req ctrl
 		log.Log.Info("GUI Version is set", "HephaestusGuiVersion", hephaestusDeployment.Spec.HephaestusGuiVersion)
 	}
 
-	guiDeployment := getGuiDeployment(hephaestusDeployment)
+	guiDeployment := getGuiDeployment(hephaestusDeployment, hephaestusDeployment.Spec.HephaestusGuiConfigMapRaw != nil)
 	if err := r.Create(ctx, &guiDeployment); err != nil {
 		log.Log.Error(err, "unable to create Deployment", "Deployment.Namespace", guiDeployment.Namespace, "Deployment.Name", guiDeployment.Name)
 		return ctrl.Result{}, err
 	}
 	log.Log.Info("Created Deployment", "Deployment.Namespace", guiDeployment.Namespace, "Deployment.Name", guiDeployment.Name)
+
+	//gui-service
+	guiService := getGuiService(hephaestusDeployment)
+	if err := r.Create(ctx, &guiService); err != nil {
+		log.Log.Error(err, "unable to create Gui Service", "GuiService.Namespace", guiService.Namespace, "GuiService.Name", guiService.Name)
+		return ctrl.Result{}, err
+	}
+	log.Log.Info("Created Gui Service", "GuiService.Namespace", guiService.Namespace, "GuiService.Name", guiService.Name)
 
 	//metrics-adapter
 	log.FromContext(ctx).Info("Metrics Adapter Image is ", "MetricsAdapterImage", hephaestusDeployment.Spec.MetricsAdapterImage)
@@ -92,7 +109,7 @@ func (r *HephaestusDeploymentReconciler) Reconcile(ctx context.Context, req ctrl
 	}
 
 	metricsAdapterDeployment := getMetricsAdapterDeployment(hephaestusDeployment)
-	if err := r.Create(ctx, &guiDeployment); err != nil {
+	if err := r.Create(ctx, &metricsAdapterDeployment); err != nil {
 		log.Log.Error(err, "unable to create metrics adapter Deployment", "Deployment.Namespace", metricsAdapterDeployment.Namespace, "Deployment.Name", metricsAdapterDeployment.Name)
 		return ctrl.Result{}, err
 	}
@@ -108,7 +125,7 @@ func (r *HephaestusDeploymentReconciler) Reconcile(ctx context.Context, req ctrl
 	}
 
 	executionControllerDeployment := getExecutionControllerDeployment(hephaestusDeployment)
-	if err := r.Create(ctx, &guiDeployment); err != nil {
+	if err := r.Create(ctx, &executionControllerDeployment); err != nil {
 		log.Log.Error(err, "unable to create execution controller Deployment", "Deployment.Namespace", executionControllerDeployment.Namespace, "Deployment.Name", executionControllerDeployment.Name)
 		return ctrl.Result{}, err
 	}

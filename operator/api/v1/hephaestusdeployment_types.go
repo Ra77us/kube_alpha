@@ -29,18 +29,18 @@ type HephaestusDeploymentSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	// +kubebuilder:validation:Required
-	HephaestusGuiVersion           string `json:"hephaestusGuiVersion"`
-	HephaestusGuiConfigMapRaw      string `json:"hephaestusGuiConfigMapRaw,omitempty"`
-	HephaestusGuiConfigMapFilePath string `json:"hephaestusGuiConfigMapFilePath,omitempty"`
+	HephaestusGuiVersion           string            `json:"hephaestusGuiVersion"`
+	HephaestusGuiConfigMapRaw      map[string]string `json:"hephaestusGuiConfigMapRaw,omitempty"`
+	HephaestusGuiConfigMapFilePath string            `json:"hephaestusGuiConfigMapFilePath,omitempty"`
 	// +kubebuilder:validation:Required
 	PrometheusAddress string `json:"prometheusAddress"`
 	// +kubebuilder:validation:Required
 	ExecutionControllerImage string `json:"executionControllerImage"`
 	// +kubebuilder:validation:Required
 	MetricsAdapterImage     string `json:"metricsAdapterImage"`
-	MetricsAdapterPort      string `json:"metricsAdapterPort"`
-	HephaestusGuiPort       string `json:"hephaestusGuiPort"`
-	ExecutionControllerPort string `json:"executionControllerPort"`
+	MetricsAdapterPort      string `json:"metricsAdapterPort,omitempty"`
+	HephaestusGuiPort       string `json:"hephaestusGuiPort,omitempty"`
+	ExecutionControllerPort string `json:"executionControllerPort,omitempty"`
 }
 
 // HephaestusDeploymentStatus defines the observed state of HephaestusDeployment

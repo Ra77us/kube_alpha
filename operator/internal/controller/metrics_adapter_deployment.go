@@ -12,7 +12,7 @@ func getMetricsAdapterDeployment(hephaestusDeployment operatorv1.HephaestusDeplo
 	one := int32(1)
 	return appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      hephaestusDeployment.Name + "-metricsadapter-deployment",
+			Name:      hephaestusDeployment.Name + "-metrics-adapter-deployment",
 			Namespace: hephaestusDeployment.Namespace,
 		},
 		Spec: appsv1.DeploymentSpec{

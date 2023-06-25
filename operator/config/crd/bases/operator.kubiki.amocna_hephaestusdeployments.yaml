@@ -42,7 +42,9 @@ spec:
               hephaestusGuiConfigMapFilePath:
                 type: string
               hephaestusGuiConfigMapRaw:
-                type: string
+                additionalProperties:
+                  type: string
+                type: object
               hephaestusGuiPort:
                 type: string
               hephaestusGuiVersion:
@@ -55,11 +57,8 @@ spec:
                 type: string
             required:
             - executionControllerImage
-            - executionControllerPort
-            - hephaestusGuiPort
             - hephaestusGuiVersion
             - metricsAdapterImage
-            - metricsAdapterPort
             - prometheusAddress
             type: object
           status:

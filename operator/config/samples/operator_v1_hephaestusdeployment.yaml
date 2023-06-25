@@ -1,12 +1,9 @@
 apiVersion: operator.kubiki.amocna/v1
 kind: HephaestusDeployment
 metadata:
-  name: hephaestusdeployment-sample
+  name: hephaestusdeployment-sample-11
 spec:
-  hephaestusGuiVersion: "fff"
+  hephaestusGuiVersion: "latest"
   prometheusAddress: "c"
-  executionControllerImage: "c"
-  metricsAdapterImage: "b"
-  metricsAdapterPort: "a"
-  hephaestusGuiPort: "b"
-  executionControllerPort: "c"
+  executionControllerImage: "hephaestusmetrics/kubernetes-management:latest"
+  metricsAdapterImage: "hephaestusmetrics/metrics-adapter:latest"
