@@ -11,8 +11,8 @@ import (
 func getMetricsAdapterDeployment(hephaestusDeployment operatorv1.HephaestusDeployment) appsv1.Deployment {
 	one := int32(1)
 	guiPort := getPortOrDefault(hephaestusDeployment.Spec.HephaestusGuiInternalPort, 8080)
-	executionControllerPort := getPortOrDefault(hephaestusDeployment.Spec.ExecutionControllerInternalPort, 8080)
-	metricsAdapterPort := getPortOrDefault(hephaestusDeployment.Spec.MetricsAdapterInternalPort, 8080)
+	executionControllerPort := getPortOrDefault(hephaestusDeployment.Spec.ExecutionControllerInternalPort, 8097)
+	metricsAdapterPort := getPortOrDefault(hephaestusDeployment.Spec.MetricsAdapterInternalPort, 8085)
 	return appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      hephaestusDeployment.Name + "-metrics-adapter-deployment",

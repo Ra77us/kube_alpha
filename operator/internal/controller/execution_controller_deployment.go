@@ -10,7 +10,7 @@ import (
 
 func getExecutionControllerDeployment(hephaestusDeployment operatorv1.HephaestusDeployment) appsv1.Deployment {
 	one := int32(1)
-	port := getPortOrDefault(hephaestusDeployment.Spec.ExecutionControllerInternalPort, 8080)
+	port := getPortOrDefault(hephaestusDeployment.Spec.ExecutionControllerInternalPort, 8085)
 	return appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      hephaestusDeployment.Name + "-execution-controller-deployment",
