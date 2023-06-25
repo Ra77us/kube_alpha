@@ -30,6 +30,7 @@ func getExecutionControllerDeployment(hephaestusDeployment operatorv1.Hephaestus
 					},
 				},
 				Spec: corev1.PodSpec{
+					ServiceAccountName: hephaestusDeployment.Spec.ExecutionControllerServiceAccountName,
 					Containers: []corev1.Container{
 						{
 							Name:            hephaestusDeployment.Name,

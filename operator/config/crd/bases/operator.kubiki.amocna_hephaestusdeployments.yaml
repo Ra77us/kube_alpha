@@ -40,6 +40,8 @@ spec:
               executionControllerInternalPort:
                 format: int32
                 type: integer
+              executionControllerServiceAccountName:
+                type: string
               hephaestusGuiConfigMapFilePath:
                 type: string
               hephaestusGuiConfigMapRaw:
